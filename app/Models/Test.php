@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
+class Test extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function translations(): MorphMany
+    {
+        return $this->morphMany(Translation::class, 'model');
+    }
+
+    public function getTranslation(string $field, string $locale): ?string
+    {
+        return $this->translations()
+            ->where('field', $field)
+            ->where('locale', $locale)
+            ->value('value') ?? $this->translations()
+                ->where('field', $field)
+                ->where('locale', 'kz')
+                ->value('value');
+    }
+
+    public function setTranslation(string $field, string $locale, ?string $value): void
+    {
+        $this->translations()->updateOrCreate(
+            ['field' => $field, 'locale' => $locale],
+            ['value' => $value]
+        );
+    }
+}
