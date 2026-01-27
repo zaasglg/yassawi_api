@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\ForumController;
 use App\Http\Controllers\Api\V1\HomeController;
 use App\Http\Controllers\Api\V1\LifeController;
 use App\Http\Controllers\Api\V1\PathsController;
+use App\Http\Controllers\Api\V1\PostsController;
 use App\Http\Controllers\Api\V1\StudiesController;
 use App\Http\Controllers\Api\V1\TestsController;
 use App\Http\Controllers\Api\V1\WorksController;
@@ -23,6 +24,8 @@ Route::prefix('v1')->group(function () {
     Route::get('studies', [StudiesController::class, 'index']);
     Route::get('tests', [TestsController::class, 'index']);
     Route::get('tests/{id}', [TestsController::class, 'show']);
+    Route::get('posts', [PostsController::class, 'index']);
+    Route::get('posts/{id}', [PostsController::class, 'show']);
     Route::get('forum/categories', [ForumController::class, 'categories']);
     Route::get('forum/topics', [ForumController::class, 'index']);
     Route::get('forum/topics/{id}', [ForumController::class, 'show']);
