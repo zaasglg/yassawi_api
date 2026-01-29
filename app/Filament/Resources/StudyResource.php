@@ -117,10 +117,10 @@ class StudyResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('video_url')
                     ->label('Видео URL')
-                    ->visible(fn($record) => $record->type === 'video'),
+                    ->visible(fn($record) => $record && $record->type === 'video'),
                 Tables\Columns\TextColumn::make('audio_url')
                     ->label('Аудио URL')
-                    ->visible(fn($record) => $record->type === 'audio'),
+                    ->visible(fn($record) => $record && $record->type === 'audio'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()
