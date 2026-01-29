@@ -15,12 +15,18 @@ class StudiesController extends Controller
             ->with('translations')
             ->get()
             ->map(function ($study) use ($locale) {
-                return [
+                $data = [
                     'id' => $study->id,
                     'type' => $study->type,
                     'title' => $study->getTranslation('title', $locale),
                     'content' => $study->getTranslation('content', $locale),
                 ];
+
+                if ($study->type === 'video' && $study->video_url) {
+                    $data['video_url'] = $study->video_url;
+                }
+
+                return $data;
             });
 
         return response()->json($studies);

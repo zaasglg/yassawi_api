@@ -18,6 +18,7 @@ class StudiesSeeder extends Seeder
         $studies = [
             [
                 'type' => 'video',
+                'video_url' => 'https://www.youtube.com/watch?v=example1',
                 'title' => [
                     'kz' => 'Ясауи ілімі туралы дәріс',
                     'ru' => 'Лекция об учении Ясави',
@@ -51,6 +52,7 @@ class StudiesSeeder extends Seeder
         foreach ($studies as $data) {
             $study = Study::create([
                 'type' => $data['type'],
+                'video_url' => $data['video_url'] ?? null,
             ]);
 
             foreach (['kz', 'ru', 'en', 'tr'] as $locale) {
