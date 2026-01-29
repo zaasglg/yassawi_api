@@ -40,6 +40,11 @@ class StudyResource extends Resource
                     ->url()
                     ->visible(fn($get) => $get('type') === 'video')
                     ->required(fn($get) => $get('type') === 'video'),
+                Forms\Components\TextInput::make('audio_url')
+                    ->label('Ссылка на аудио')
+                    ->url()
+                    ->visible(fn($get) => $get('type') === 'audio')
+                    ->required(fn($get) => $get('type') === 'audio'),
                 Tabs::make('Translations')
                     ->tabs([
                         Tabs\Tab::make('KZ')
@@ -113,6 +118,9 @@ class StudyResource extends Resource
                 Tables\Columns\TextColumn::make('video_url')
                     ->label('Видео URL')
                     ->visible(fn($record) => $record->type === 'video'),
+                Tables\Columns\TextColumn::make('audio_url')
+                    ->label('Аудио URL')
+                    ->visible(fn($record) => $record->type === 'audio'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()

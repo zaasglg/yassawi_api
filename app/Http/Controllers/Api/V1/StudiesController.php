@@ -26,6 +26,10 @@ class StudiesController extends Controller
                     $data['video_url'] = $study->video_url;
                 }
 
+                if ($study->type === 'audio' && $study->audio_url) {
+                    $data['audio_url'] = $study->audio_url;
+                }
+
                 return $data;
             });
 

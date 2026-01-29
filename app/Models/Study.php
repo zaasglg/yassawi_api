@@ -13,6 +13,7 @@ class Study extends Model
     protected $fillable = [
         'type',
         'video_url',
+        'audio_url',
     ];
 
     public function translations(): MorphMany
