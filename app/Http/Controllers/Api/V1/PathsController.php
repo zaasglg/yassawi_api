@@ -25,4 +25,17 @@ class PathsController extends Controller
 
         return response()->json($paths);
     }
+
+    public function show(int $id)
+    {
+        $locale = request()->header('Accept-Language', 'kz');
+        $path = Path::query()->with('translations')->findOrFail($id);
+
+        return response()->json([
+            'id' => $path->id,
+            'title' => $path->getTranslation('title', $locale),
+            'content' => $path->getTranslation('content', $locale),
+            'coordinates' => $path->coordinates,
+        ]);
+    }
 }

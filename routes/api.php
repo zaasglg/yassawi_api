@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function () {
     Route::get('life/{slug}', [LifeController::class, 'show']);
     Route::get('works', [WorksController::class, 'index']);
     Route::get('paths', [PathsController::class, 'index']);
+    Route::get('paths/{id}', [PathsController::class, 'show']);
     Route::get('studies', [StudiesController::class, 'index']);
     Route::get('tests', [TestsController::class, 'index']);
     Route::get('tests/{id}', [TestsController::class, 'show']);
