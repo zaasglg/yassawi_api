@@ -34,7 +34,8 @@ class StudyResource extends Resource
                         'article' => 'Статья',
                         'audio' => 'Аудио',
                     ])
-                    ->required(),
+                    ->required()
+                    ->reactive(),
                 Forms\Components\TextInput::make('video_url')
                     ->label('Ссылка на видео')
                     ->url()
