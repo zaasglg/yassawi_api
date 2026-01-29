@@ -33,8 +33,7 @@ Route::prefix('v1')->group(function () {
 
     // PROTECTED
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('tests/{id}/submit', [TestsController::class, 'submit'])
-            ->middleware('role:student,admin');
+        Route::post('tests/{id}/submit', [TestsController::class, 'submit']);
 
         // Forum Protected Routes
         Route::post('forum/topics', [ForumController::class, 'store']);

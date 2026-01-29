@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\ForumCategory;
+use App\Models\Question;
 use App\Models\Test;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,7 +14,7 @@ class RoleAccessTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_without_role_cannot_submit_test(): void
+    public function test_user_can_submit_test(): void
     {
         $user = User::create([
             'name' => 'Just User',
@@ -24,13 +26,21 @@ class RoleAccessTest extends TestCase
         Sanctum::actingAs($user);
 
         $test = Test::create(['title' => 'Test', 'is_active' => true]);
-
-        $response = $this->postJson("/api/v1/tests/{$test->id}/submit", [
-            'answers' => [],
+        $question = \App\Models\Question::create([
+            'test_id' => $test->id,
+            'question' => ['text' => 'Q?'],
+            'correct_answer' => 'A',
+            'options' => [],
         ]);
 
-        // Expect 403 Forbidden because 'user' role is not in [student, admin]
-        $response->assertStatus(403);
+        $response = $this->postJson("/api/v1/tests/{$test->id}/submit", [
+            'answers' => [
+                $question->id => 'A',
+            ],
+        ]);
+
+        // Now user can submit test
+        $response->assertStatus(201);
     }
 
     public function test_admin_can_access_everything(): void
@@ -45,9 +55,16 @@ class RoleAccessTest extends TestCase
         Sanctum::actingAs($admin);
 
         // Can create post
-        $this->postJson('/api/v1/forum', [
+        $category = ForumCategory::create([
+            'name' => 'Test Category',
+            'slug' => 'test-category',
+            'icon_name' => 'test',
+            'color_code' => '#000',
+        ]);
+        $this->postJson('/api/v1/forum/topics', [
             'title' => 'Admin Post',
             'content' => 'Content',
+            'category_id' => $category->id,
         ])->assertStatus(201);
 
         // Can submit test

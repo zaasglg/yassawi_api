@@ -20,6 +20,6 @@ class TestPolicy
      */
     public function submit(User $user, Test $test): bool
     {
-        return in_array($user->role, ['student', 'admin']);
+        return true;
     }
 }
